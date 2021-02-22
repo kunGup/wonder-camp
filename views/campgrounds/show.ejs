@@ -1,7 +1,8 @@
 <% layout('layouts/boilerplate') %>
     <link rel="stylesheet" href="/css/starRating.css">
+    <link rel="stylesheet" href="/css/app.css">
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="card mb-5">
                 
             <div id="campCaraousel" class="carousel slide" data-bs-ride="carousel">
@@ -54,8 +55,8 @@
 
 
         </div>
-        <div class="col-6">
-            <div id='map' class="mb-3" style='width: 400px; height: 300px;'></div>
+        <div class="col-md-6">
+            <div id='map' class="mb-3"></div>
             <% if(currentUser){ %> 
             <h2>Leave a Review</h2>
             <form action="/campgrounds/<%= campground.id %>/reviews" method="post" class="mb-3" novalidate
