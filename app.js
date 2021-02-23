@@ -47,10 +47,10 @@ app.use(mongoSanitize({
     replaceWith: '_'
   }));
 app.use(helmet())
-
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 const store = new MongoStore({
     url: dbUrl,
-    secret: 'thisshouldbeabettersecret',
+    secret,
     touchAfter: 24*60*60
 })
 store.on("error",function(e){
@@ -58,7 +58,8 @@ store.on("error",function(e){
 })
 const sessionConfig = {
     store,
-    secret: 'thisshouldbeabettersecret!',
+    name: 'session',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
