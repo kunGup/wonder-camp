@@ -1,9 +1,6 @@
-// if(process.env.NODE_ENV !== "production"){
-//     require('dotenv').config()
-// }
-
-// 
-require('dotenv').config()
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config()
+}
 const express = require('express')
 const mongoose = require('mongoose')
 const flash = require('connect-flash')
@@ -21,14 +18,13 @@ const User = require('./models/user');
 const LocalStrategy = require('passport-local')
 const passport = require('passport')
 
-const dbUrl = process.env.ExpressErrorDB_URL || 'mongodb://localhost:27017/yelp-camp'
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 });
-
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -39,7 +35,6 @@ const app = express()
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
-
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -47,6 +42,7 @@ app.use(mongoSanitize({
     replaceWith: '_'
   }));
 app.use(helmet())
+
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 const store = new MongoStore({
     url: dbUrl,
@@ -118,8 +114,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
